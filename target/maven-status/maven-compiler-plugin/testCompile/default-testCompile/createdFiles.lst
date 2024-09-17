@@ -1,0 +1,14 @@
+com/HotelTremvago/HotelTremvago/services/ReservaServiceTest.class
+com/HotelTremvago/HotelTremvago/services/HotelServiceTest.class
+com/HotelTremvago/HotelTremvago/HotelTremvagoApplicationTest.class
+com/HotelTremvago/HotelTremvago/services/QuartoServiceTest.class
+com/HotelTremvago/HotelTremvago/controllers/QuartoControllerTest.class
+com/HotelTremvago/HotelTremvago/controllers/HospedeControllerTest.class
+com/HotelTremvago/HotelTremvago/controllers/TipoQuartoControllerTest.class
+com/HotelTremvago/HotelTremvago/services/HospedeServiceTest.class
+com/HotelTremvago/HotelTremvago/controllers/HotelControllerTest.class
+com/HotelTremvago/HotelTremvago/services/UsuarioServiceTest.class
+com/HotelTremvago/HotelTremvago/services/CidadeServiceTest.class
+com/HotelTremvago/HotelTremvago/controllers/CidadeControllerTest.class
+com/HotelTremvago/HotelTremvago/controllers/ReservaControllerTest.class
+com/HotelTremvago/HotelTremvago/controllers/UsuarioControllerTest.class

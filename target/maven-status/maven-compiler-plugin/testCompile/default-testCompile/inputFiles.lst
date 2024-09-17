@@ -1,0 +1,14 @@
+/home/gustavo/IdeaProjects/HotelTremvago/src/test/java/com/HotelTremvago/HotelTremvago/HotelTremvagoApplicationTest.java
+/home/gustavo/IdeaProjects/HotelTremvago/src/test/java/com/HotelTremvago/HotelTremvago/controllers/CidadeControllerTest.java
+/home/gustavo/IdeaProjects/HotelTremvago/src/test/java/com/HotelTremvago/HotelTremvago/controllers/HospedeControllerTest.java
+/home/gustavo/IdeaProjects/HotelTremvago/src/test/java/com/HotelTremvago/HotelTremvago/controllers/HotelControllerTest.java
+/home/gustavo/IdeaProjects/HotelTremvago/src/test/java/com/HotelTremvago/HotelTremvago/controllers/QuartoControllerTest.java
+/home/gustavo/IdeaProjects/HotelTremvago/src/test/java/com/HotelTremvago/HotelTremvago/controllers/ReservaControllerTest.java
+/home/gustavo/IdeaProjects/HotelTremvago/src/test/java/com/HotelTremvago/HotelTremvago/controllers/TipoQuartoControllerTest.java
+/home/gustavo/IdeaProjects/HotelTremvago/src/test/java/com/HotelTremvago/HotelTremvago/controllers/UsuarioControllerTest.java
+/home/gustavo/IdeaProjects/HotelTremvago/src/test/java/com/HotelTremvago/HotelTremvago/services/CidadeServiceTest.java
+/home/gustavo/IdeaProjects/HotelTremvago/src/test/java/com/HotelTremvago/HotelTremvago/services/HospedeServiceTest.java
+/home/gustavo/IdeaProjects/HotelTremvago/src/test/java/com/HotelTremvago/HotelTremvago/services/HotelServiceTest.java
+/home/gustavo/IdeaProjects/HotelTremvago/src/test/java/com/HotelTremvago/HotelTremvago/services/QuartoServiceTest.java
+/home/gustavo/IdeaProjects/HotelTremvago/src/test/java/com/HotelTremvago/HotelTremvago/services/ReservaServiceTest.java
+/home/gustavo/IdeaProjects/HotelTremvago/src/test/java/com/HotelTremvago/HotelTremvago/services/UsuarioServiceTest.java

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HospedeService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">HotelTremvago</a> &gt; <a href="index.source.html" class="el_package">com.HotelTremvago.HotelTremvago.services</a> &gt; <span class="el_source">HospedeService.java</span></div><h1>HospedeService.java</h1><pre class="source lang-java linenums">package com.HotelTremvago.HotelTremvago.services;
+
+import com.HotelTremvago.HotelTremvago.entities.HospedeEntity;
+import com.HotelTremvago.HotelTremvago.entities.UsuarioEntity;
+import com.HotelTremvago.HotelTremvago.repositories.HospedeRepository;
+import com.HotelTremvago.HotelTremvago.repositories.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.List;
+
+@Service
+<span class="fc" id="L14">public class HospedeService {</span>
+    @Autowired
+    private HospedeRepository hospedeRepository;
+
+    public HospedeEntity save(HospedeEntity hospedeEntity){
+        try{
+<span class="fc" id="L20">            return hospedeRepository.save(hospedeEntity);</span>
+<span class="nc" id="L21">        } catch(Exception e){</span>
+<span class="nc" id="L22">            System.out.println(&quot;Nao foi possivel salvar hospede: &quot; + e.getMessage());</span>
+<span class="nc" id="L23">            return new HospedeEntity();</span>
+        }
+    }
+
+    public String delete(Long id){
+        try {
+<span class="fc" id="L29">            hospedeRepository.deleteById(id);</span>
+<span class="fc" id="L30">            return &quot;Hospede deletado&quot;;</span>
+<span class="fc" id="L31">        } catch (Exception e){</span>
+<span class="fc" id="L32">            return &quot;Nao foi possivel deletar hospede&quot;;</span>
+        }
+    }
+
+    public HospedeEntity update(HospedeEntity hospedeEntity, Long id){
+        try{
+<span class="fc" id="L38">            hospedeEntity.setId(id);</span>
+<span class="fc" id="L39">            return hospedeRepository.save(hospedeEntity);</span>
+<span class="nc" id="L40">        } catch(Exception e){</span>
+<span class="nc" id="L41">            System.out.println(&quot;Nao foi possivel atualizar hospede: &quot; + e.getMessage());</span>
+<span class="nc" id="L42">            return new HospedeEntity();</span>
+        }
+    }
+
+    public HospedeEntity findById(Long id){
+        try{
+<span class="fc" id="L48">            return hospedeRepository.findById(id).orElseThrow();</span>
+<span class="nc" id="L49">        }catch(Exception e){</span>
+<span class="nc" id="L50">            System.out.println(&quot;Nao foi possivel encontrar um hospede com este ID: &quot; + e.getMessage());</span>
+<span class="nc" id="L51">            return new HospedeEntity();</span>
+        }
+    }
+
+    public List&lt;HospedeEntity&gt; findAll() {
+        try{
+<span class="fc" id="L57">            return hospedeRepository.findAll();</span>
+<span class="fc" id="L58">        } catch(Exception e) {</span>
+<span class="fc" id="L59">            System.out.println(&quot;Erro ao encontrar lista de hospede: &quot; + e.getMessage());</span>
+<span class="fc" id="L60">            return Collections.emptyList();</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

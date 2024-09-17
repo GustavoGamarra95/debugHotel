@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>QuartoService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">HotelTremvago</a> &gt; <a href="index.source.html" class="el_package">com.HotelTremvago.HotelTremvago.services</a> &gt; <span class="el_source">QuartoService.java</span></div><h1>QuartoService.java</h1><pre class="source lang-java linenums">package com.HotelTremvago.HotelTremvago.services;
+
+import com.HotelTremvago.HotelTremvago.entities.HotelEntity;
+import com.HotelTremvago.HotelTremvago.entities.QuartoEntity;
+import com.HotelTremvago.HotelTremvago.entities.ReservaEntity;
+import com.HotelTremvago.HotelTremvago.entities.TipoQuartoEntity;
+import com.HotelTremvago.HotelTremvago.repositories.HotelRepository;
+import com.HotelTremvago.HotelTremvago.repositories.QuartoRepository;
+import com.HotelTremvago.HotelTremvago.repositories.ReservaRepository;
+import com.HotelTremvago.HotelTremvago.repositories.TipoQuartoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
+
+@Service
+<span class="fc" id="L19">public class QuartoService {</span>
+    @Autowired
+    private QuartoRepository quartoRepository;
+    @Autowired
+    private TipoQuartoRepository tipoQuartoRepository;
+    @Autowired
+    ReservaService reservaService;
+    @Autowired
+    ReservaRepository reservaRepository;
+
+    public QuartoEntity criarQuarto(QuartoEntity quartoEntity){
+        try {
+<span class="fc" id="L31">            TipoQuartoEntity tipoQuartoEntity = quartoEntity.getTipoQuarto();</span>
+<span class="fc" id="L32">            Optional&lt;TipoQuartoEntity&gt; tipoQuartoExistente = tipoQuartoRepository.findByNome(tipoQuartoEntity.getNome());</span>
+<span class="pc bpc" id="L33" title="1 of 2 branches missed.">            if(!tipoQuartoExistente.isPresent()){</span>
+<span class="fc" id="L34">                this.tipoQuartoRepository.save(tipoQuartoEntity);</span>
+            } else {
+<span class="nc" id="L36">                tipoQuartoEntity = tipoQuartoExistente.get();</span>
+<span class="nc" id="L37">                quartoEntity.setTipoQuarto(tipoQuartoEntity);</span>
+            }
+<span class="fc" id="L39">            return quartoRepository.save(quartoEntity);</span>
+<span class="nc" id="L40">        } catch(Exception e){</span>
+<span class="nc" id="L41">            System.out.println(&quot;Não foi possível criar o quarto: &quot; + e.getMessage());</span>
+<span class="nc" id="L42">            e.printStackTrace();</span>
+<span class="nc" id="L43">            return null;</span>
+        }
+    }
+
+    public List&lt;QuartoEntity&gt; quartosDisponiveis(Long tipoQuartoId, int capacidade, Date dataInicio, Date dataFinal) {
+<span class="fc" id="L48">        LocalDate localDataInicio = dataInicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();</span>
+<span class="fc" id="L49">        LocalDate localDataFinal = dataFinal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();</span>
+
+<span class="fc" id="L51">        List&lt;QuartoEntity&gt; quartos = quartoRepository.findByTipoQuartoECapacidade(tipoQuartoId, capacidade);</span>
+<span class="fc" id="L52">        List&lt;QuartoEntity&gt; quartosDisponiveis = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L54" title="All 2 branches covered.">        for (QuartoEntity quarto : quartos) {</span>
+<span class="fc" id="L55">            boolean disponivel = true;</span>
+
+<span class="fc" id="L57">            List&lt;ReservaEntity&gt; reservas = reservaRepository.findByTipoQuartoCapacidadeStatusData(</span>
+                    tipoQuartoId, capacidade, dataInicio, dataFinal);
+
+<span class="fc bfc" id="L60" title="All 2 branches covered.">            for (ReservaEntity reserva : reservas) {</span>
+<span class="fc" id="L61">                LocalDate reservaInicio = reserva.getDataInicio().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();</span>
+<span class="fc" id="L62">                LocalDate reservaFinal = reserva.getDataFinal().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();</span>
+
+<span class="pc bpc" id="L64" title="1 of 2 branches missed.">                if (quarto.getId().equals(reserva.getQuarto().getId()) &amp;&amp;</span>
+<span class="pc bpc" id="L65" title="2 of 4 branches missed.">                        !(localDataFinal.isBefore(reservaInicio) || localDataInicio.isAfter(reservaFinal))) {</span>
+<span class="fc" id="L66">                    disponivel = false;</span>
+<span class="fc" id="L67">                    break;</span>
+                }
+<span class="nc" id="L69">            }</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">            if (disponivel) {</span>
+<span class="fc" id="L71">                quartosDisponiveis.add(quarto);</span>
+            }
+<span class="fc" id="L73">        }</span>
+<span class="fc" id="L74">        return quartosDisponiveis;</span>
+    }
+
+    public String delete(Long id){
+        try {
+<span class="nc" id="L79">            quartoRepository.deleteById(id);</span>
+<span class="nc" id="L80">            return &quot;Quarto deletado&quot;;</span>
+<span class="nc" id="L81">        } catch (Exception e){</span>
+<span class="nc" id="L82">            return &quot;Nao foi possivel deletar quarto&quot;;</span>
+        }
+    }
+
+    public QuartoEntity update(QuartoEntity updatedQuarto, Long id) {
+<span class="nc" id="L87">        QuartoEntity quarto = quartoRepository.findById(id)</span>
+<span class="nc" id="L88">                .orElseThrow(() -&gt; new RuntimeException(&quot;Quarto not found with id &quot; + id));</span>
+
+<span class="nc" id="L90">        quarto.setNome(updatedQuarto.getNome());</span>
+<span class="nc" id="L91">        quarto.setCapacidade(updatedQuarto.getCapacidade());</span>
+
+<span class="nc bnc" id="L93" title="All 2 branches missed.">         if (updatedQuarto.getTipoQuarto() != null) {</span>
+<span class="nc" id="L94">            TipoQuartoEntity tipoQuarto = tipoQuartoRepository.findById(updatedQuarto.getTipoQuarto().getId())</span>
+<span class="nc" id="L95">                    .orElseThrow(() -&gt; new RuntimeException(&quot;TipoQuarto not found with id &quot; + updatedQuarto.getTipoQuarto().getId()));</span>
+<span class="nc" id="L96">             quarto.setTipoQuarto(tipoQuarto);</span>
+        }
+
+<span class="nc" id="L99">        return quartoRepository.save(quarto);</span>
+    }
+
+    public QuartoEntity findById(Long id){
+        try{
+<span class="nc" id="L104">            return quartoRepository.findById(id).orElseThrow();</span>
+<span class="nc" id="L105">        }catch(Exception e){</span>
+<span class="nc" id="L106">            System.out.println(&quot;Nao foi possivel encontrar um quarto com este ID: &quot; + e.getMessage());</span>
+<span class="nc" id="L107">            return new QuartoEntity();</span>
+        }
+    }
+
+    public List&lt;QuartoEntity&gt; findAll() {
+        try{
+<span class="nc" id="L113">            return quartoRepository.findAll();</span>
+<span class="fc" id="L114">        } catch(Exception e) {</span>
+<span class="fc" id="L115">            System.out.println(&quot;Erro ao encontrar lista de quarto: &quot; + e.getMessage());</span>
+<span class="fc" id="L116">            return Collections.emptyList();</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
