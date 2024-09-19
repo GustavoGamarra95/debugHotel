@@ -1,13 +1,14 @@
 package com.HotelTremvago.HotelTremvago.services;
+
 import com.HotelTremvago.HotelTremvago.entities.CidadeEntity;
 import com.HotelTremvago.HotelTremvago.entities.HotelEntity;
 import com.HotelTremvago.HotelTremvago.repositories.CidadeRepository;
 import com.HotelTremvago.HotelTremvago.repositories.HotelRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -16,21 +17,17 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
+@SpringBootTest
 public class HotelServiceTest {
 
-    @Mock
+    @MockBean
     private HotelRepository hotelRepository;
 
-    @Mock
+    @MockBean
     private CidadeRepository cidadeRepository;
 
-    @InjectMocks
+    @Autowired
     private HotelService hotelService;
-
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     public void testSave() {
@@ -66,31 +63,25 @@ public class HotelServiceTest {
 
     @Test
     public void testUpdate() {
-        // Configuración del hotel existente
         HotelEntity existingHotel = new HotelEntity();
         existingHotel.setId(1L);
-
 
         CidadeEntity cidade = new CidadeEntity();
         cidade.setId(2L);
         HotelEntity updatedHotel = new HotelEntity();
         updatedHotel.setCidade(cidade);
 
-
         when(hotelRepository.findById(anyLong())).thenReturn(Optional.of(existingHotel));
         when(cidadeRepository.findById(anyLong())).thenReturn(Optional.of(cidade));
         when(hotelRepository.save(any(HotelEntity.class))).thenReturn(existingHotel);
 
-
         HotelEntity result = hotelService.update(updatedHotel, 1L);
-
 
         assertNotNull(result);
         verify(hotelRepository).findById(1L);
         verify(cidadeRepository).findById(2L);
         verify(hotelRepository).save(existingHotel);
     }
-
 
     @Test
     public void testFindById() {

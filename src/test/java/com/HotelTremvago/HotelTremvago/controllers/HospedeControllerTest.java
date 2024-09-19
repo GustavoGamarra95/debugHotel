@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -19,6 +20,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
+@SpringBootTest
 public class HospedeControllerTest {
 
     @Mock
@@ -78,15 +80,15 @@ public class HospedeControllerTest {
         assertEquals(hospede, response.getBody());
     }
 
-//    @Test
-//    public void testFindById_NotFound() {
-//        when(hospedeService.findById(anyLong())).thenReturn(null);
-//
-//        ResponseEntity<HospedeEntity> response = hospedeController.findById(1L);
-//
-//        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-//        assertNull(response.getBody());
-//    }
+    @Test
+    public void testFindById_NotFound() {
+        when(hospedeService.findById(anyLong())).thenReturn(null);
+
+        ResponseEntity<HospedeEntity> response = hospedeController.findById(1L);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertNull(response.getBody());
+    }
 
     @Test
     public void testFindAll() {
@@ -186,13 +188,13 @@ public class HospedeControllerTest {
         assertNull(response.getBody());
     }
 
-//    @Test
-//    public void testDeleteNotFound() {
-//        when(hospedeService.delete(anyLong())).thenThrow(new IllegalArgumentException("ID não encontrado"));
-//
-//        ResponseEntity<String> response = hospedeController.delete(1L);
-//
-//        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-//        assertEquals("ID não encontrado", response.getBody());
-//    }
+    @Test
+    public void testDeleteNotFound() {
+        when(hospedeService.delete(anyLong())).thenThrow(new IllegalArgumentException("ID não encontrado"));
+
+        ResponseEntity<String> response = hospedeController.delete(1L);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertEquals("ID não encontrado", response.getBody());
+    }
 }

@@ -109,14 +109,14 @@ public class CidadeService {
         }
     }
 
-    public List<CidadeEntity> findByNomeAndCidade( String nome, String cidade) {
-        try {
-            return cidadeRepository.findByNomeandCidade( nome, cidade);
-        } catch (Exception e) {
-            System.out.println("Não foi possível encontrar hoteis por nome e cidade: " + e.getMessage());
-            return Collections.emptyList();
-        }
-    }
+//    public List<CidadeEntity> findByNomeAndCidade( String nome, String cidade) {
+//        try {
+//            return cidadeRepository.findByNomeandCidade( nome, cidade);
+//        } catch (Exception e) {
+//            System.out.println("Não foi possível encontrar hoteis por nome e cidade: " + e.getMessage());
+//            return Collections.emptyList();
+//        }
+//    }
 
 
 }

@@ -6,11 +6,10 @@ import com.HotelTremvago.HotelTremvago.entities.ReservaEntity;
 import com.HotelTremvago.HotelTremvago.repositories.QuartoRepository;
 import com.HotelTremvago.HotelTremvago.repositories.TipoQuartoRepository;
 import com.HotelTremvago.HotelTremvago.repositories.ReservaRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -20,24 +19,20 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
+@SpringBootTest
 public class QuartoServiceTest {
 
-    @Mock
+    @MockBean
     private QuartoRepository quartoRepository;
 
-    @Mock
+    @MockBean
     private TipoQuartoRepository tipoQuartoRepository;
 
-    @Mock
+    @MockBean
     private ReservaRepository reservaRepository;
 
-    @InjectMocks
+    @Autowired
     private QuartoService quartoService;
-
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     public void testCriarQuartoHandlesException() {

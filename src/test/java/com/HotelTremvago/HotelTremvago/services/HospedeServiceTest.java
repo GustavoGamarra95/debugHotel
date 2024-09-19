@@ -39,15 +39,15 @@ class HospedeServiceTest {
         verify(hospedeRepository, times(1)).save(hospede);
     }
 
-//    @Test
-//    void testSaveFailure() {
-//        HospedeEntity hospede = new HospedeEntity();
-//        when(hospedeRepository.save(hospede)).thenThrow(new RuntimeException("Erro ao salvar"));
-//        HospedeEntity result = hospedeService.save(hospede);
-//        assertNotNull(result);
-//        assertEquals(new HospedeEntity(), result);
-//        verify(hospedeRepository, times(1)).save(hospede);
-//    }
+    @Test
+    void testSaveFailure() {
+        HospedeEntity hospede = new HospedeEntity();
+        when(hospedeRepository.save(hospede)).thenThrow(new RuntimeException("Erro ao salvar"));
+        HospedeEntity result = hospedeService.save(hospede);
+        assertNotNull(result);
+        assertEquals(new HospedeEntity(), result);
+        verify(hospedeRepository, times(1)).save(hospede);
+    }
 
     @Test
     void testDeleteSuccess() {
@@ -84,18 +84,18 @@ class HospedeServiceTest {
         verify(hospedeRepository, times(1)).save(hospede);
     }
 
-//    @Test
-//    void testUpdateFailure() {
-//        Long id = 1L;
-//        HospedeEntity hospede = new HospedeEntity();
-//        when(hospedeRepository.save(hospede)).thenThrow(new RuntimeException("Erro ao atualizar"));
-//
-//        HospedeEntity result = hospedeService.update(hospede, id);
-//
-//        assertNotNull(result);
-//        assertEquals(new HospedeEntity(), result);
-//        verify(hospedeRepository, times(1)).save(hospede);
-//    }
+    @Test
+    void testUpdateFailure() {
+        Long id = 1L;
+        HospedeEntity hospede = new HospedeEntity();
+        when(hospedeRepository.save(hospede)).thenThrow(new RuntimeException("Erro ao atualizar"));
+
+        HospedeEntity result = hospedeService.update(hospede, id);
+
+        assertNotNull(result);
+        assertEquals(new HospedeEntity(), result);
+        verify(hospedeRepository, times(1)).save(hospede);
+    }
 
     @Test
     void testFindByIdSuccess() {
@@ -108,18 +108,18 @@ class HospedeServiceTest {
         assertNotNull(result);
         verify(hospedeRepository, times(1)).findById(id);
     }
-//
-//    @Test
-//    void testFindByIdFailure() {
-//        Long id = 1L;
-//        when(hospedeRepository.findById(id)).thenReturn(Optional.empty());
-//
-//        HospedeEntity result = hospedeService.findById(id);
-//
-//        assertNotNull(result);
-//        assertEquals(new HospedeEntity(), result);
-//        verify(hospedeRepository, times(1)).findById(id);
-//    }
+
+    @Test
+    void testFindByIdFailure() {
+        Long id = 1L;
+        when(hospedeRepository.findById(id)).thenReturn(Optional.empty());
+
+        HospedeEntity result = hospedeService.findById(id);
+
+        assertNotNull(result);
+        assertEquals(new HospedeEntity(), result);
+        verify(hospedeRepository, times(1)).findById(id);
+    }
 
     @Test
     void testFindAllSuccess() {

@@ -7,9 +7,9 @@ import com.HotelTremvago.HotelTremvago.services.QuartoService;
 import com.HotelTremvago.HotelTremvago.services.ReservaService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -20,19 +20,17 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
+@SpringBootTest
 class ReservaControllerTest {
-    @InjectMocks
+
+    @Autowired
     private ReservaController reservaController;
-    @Mock
+
+    @MockBean
     private ReservaService reservaService;
 
-    @Mock
+    @MockBean
     private QuartoService quartoService;
-
-    @BeforeEach
-    public void setUP(){
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     public void testSaveReserva_QuartosDisponiveis() {
@@ -113,6 +111,4 @@ class ReservaControllerTest {
         assertEquals(diasDisponiveis, response.getBody());
         verify(reservaService).datasLivres(anyLong(), anyInt(), anyInt(), anyInt());
     }
-
-
 }

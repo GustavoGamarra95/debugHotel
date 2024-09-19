@@ -1,4 +1,43 @@
 -------------------------------------------------------------------------------
 Test set: com.HotelTremvago.HotelTremvago.services.HospedeServiceTest
 -------------------------------------------------------------------------------
-Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.091 s -- in com.HotelTremvago.HotelTremvago.services.HospedeServiceTest
+Tests run: 10, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 0.089 s <<< FAILURE! -- in com.HotelTremvago.HotelTremvago.services.HospedeServiceTest
+com.HotelTremvago.HotelTremvago.services.HospedeServiceTest.testFindByIdFailure -- Time elapsed: 0.002 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <com.HotelTremvago.HotelTremvago.entities.HospedeEntity@314b5e66> but was: <com.HotelTremvago.HotelTremvago.entities.HospedeEntity@3cbd0cb0>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+	at com.HotelTremvago.HotelTremvago.services.HospedeServiceTest.testFindByIdFailure(HospedeServiceTest.java:120)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+com.HotelTremvago.HotelTremvago.services.HospedeServiceTest.testSaveFailure -- Time elapsed: 0.002 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <com.HotelTremvago.HotelTremvago.entities.HospedeEntity@36a0eb33> but was: <com.HotelTremvago.HotelTremvago.entities.HospedeEntity@15fcaa0e>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+	at com.HotelTremvago.HotelTremvago.services.HospedeServiceTest.testSaveFailure(HospedeServiceTest.java:48)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+com.HotelTremvago.HotelTremvago.services.HospedeServiceTest.testUpdateFailure -- Time elapsed: 0.003 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <com.HotelTremvago.HotelTremvago.entities.HospedeEntity@45267035> but was: <com.HotelTremvago.HotelTremvago.entities.HospedeEntity@5655e036>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+	at com.HotelTremvago.HotelTremvago.services.HospedeServiceTest.testUpdateFailure(HospedeServiceTest.java:96)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+

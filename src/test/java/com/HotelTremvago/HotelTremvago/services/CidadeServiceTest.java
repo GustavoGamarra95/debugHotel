@@ -2,11 +2,10 @@ package com.HotelTremvago.HotelTremvago.services;
 
 import com.HotelTremvago.HotelTremvago.entities.CidadeEntity;
 import com.HotelTremvago.HotelTremvago.repositories.CidadeRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Collections;
 import java.util.List;
@@ -15,18 +14,14 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@SpringBootTest
 class CidadeServiceTest {
 
-    @Mock
-    private CidadeRepository cidadeRepository;
-
-    @InjectMocks
+    @Autowired
     private CidadeService cidadeService;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
+    @MockBean
+    private CidadeRepository cidadeRepository;
 
     @Test
     void testSaveSuccess() {
@@ -39,17 +34,17 @@ class CidadeServiceTest {
         verify(cidadeRepository, times(1)).save(cidade);
     }
 
-//    @Test
-//    void testSaveFailure() {
-//        CidadeEntity cidade = new CidadeEntity();
-//        when(cidadeRepository.save(cidade)).thenThrow(new RuntimeException("Erro ao salvar"));
-//
-//        CidadeEntity result = cidadeService.save(cidade);
-//
-//        assertNotNull(result);
-//        assertEquals(new CidadeEntity(), result);
-//        verify(cidadeRepository, times(1)).save(cidade);
-//    }
+    @Test
+    void testSaveFailure() {
+        CidadeEntity cidade = new CidadeEntity();
+        when(cidadeRepository.save(cidade)).thenThrow(new RuntimeException("Erro ao salvar"));
+
+        CidadeEntity result = cidadeService.save(cidade);
+
+        assertNotNull(result);
+        assertEquals(new CidadeEntity(), result);
+        verify(cidadeRepository, times(1)).save(cidade);
+    }
 
     @Test
     void testSaveAllSuccess() {
@@ -108,17 +103,17 @@ class CidadeServiceTest {
         verify(cidadeRepository, times(1)).findById(id);
     }
 
-//    @Test
-//    void testFindByIdFailure() {
-//        Long id = 1L;
-//        when(cidadeRepository.findById(id)).thenReturn(Optional.empty());
-//
-//        CidadeEntity result = cidadeService.findById(id);
-//
-//        assertNotNull(result);
-//        assertEquals(new CidadeEntity(), result);
-//        verify(cidadeRepository, times(1)).findById(id);
-//    }
+    @Test
+    void testFindByIdFailure() {
+        Long id = 1L;
+        when(cidadeRepository.findById(id)).thenReturn(Optional.empty());
+
+        CidadeEntity result = cidadeService.findById(id);
+
+        assertNotNull(result);
+        assertEquals(new CidadeEntity(), result);
+        verify(cidadeRepository, times(1)).findById(id);
+    }
 
     @Test
     void testFindAllSuccess() {

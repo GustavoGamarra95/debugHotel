@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
+@SpringBootTest
 public class CidadeControllerTest {
 
     @MockBean
@@ -38,9 +40,7 @@ public class CidadeControllerTest {
         CidadeEntity cidade = new CidadeEntity();
         cidade.setId(1L);
         when(cidadeService.save(any(CidadeEntity.class))).thenReturn(cidade);
-
         ResponseEntity<CidadeEntity> response = cidadeController.save(cidade);
-
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals(cidade, response.getBody());
     }

@@ -40,7 +40,6 @@ public class ReservaService {
         return dias * diaria;
     }
 
-
     public List<Integer> datasLivres(Long tipoQuartoId, int capacidade, int mes, int ano) {
         LocalDate inicioMes = LocalDate.of(ano, mes, 1);
         LocalDate fimMes = inicioMes.withDayOfMonth(inicioMes.lengthOfMonth());
@@ -51,53 +50,87 @@ public class ReservaService {
 
         List<ReservaEntity> reservasFiltradas = reservaRepository.findByTipoQuartoCapacidadeStatusData(tipoQuartoId, capacidade, java.sql.Date.valueOf(inicioMes), java.sql.Date.valueOf(fimMes));
 
-        List<Integer> diasReservados = new ArrayList<>();
-        for (ReservaEntity reserva : reservasFiltradas) {
-            LocalDate inicioData = reserva.getDataInicio().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            LocalDate fimData = reserva.getDataFinal().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-            LocalDate inicioIntervalo = inicioData.isBefore(inicioMes) ? inicioMes : inicioData;
-            LocalDate fimIntervalo = fimData.isAfter(fimMes) ? fimMes : fimData;
-
-            LocalDate tempDate = inicioIntervalo;
-            while (!tempDate.isAfter(fimIntervalo)) {
-                if (tempDate.getMonthValue() == mes && tempDate.getYear() == ano) {
-                    diasReservados.add(tempDate.getDayOfMonth());
-                }
-                tempDate = tempDate.plusDays(1);
-            }
-        } LocalDate hoje = LocalDate.now();
-
-
-        List<QuartoEntity> quartosDisponiveis = quartoRepository.findByTipoQuartoECapacidade(tipoQuartoId, capacidade);
-
-        List<Integer> diasLivres = new ArrayList<>(diasMes);
-
-        for (Integer dia : diasMes) {
-            LocalDate dataAtual = LocalDate.of(ano, mes, dia);
-            if (diasReservados.contains(dia)) {
-                boolean quartoDisponivel = quartosDisponiveis.stream().anyMatch(quarto -> {
-
-                    boolean reservado = reservasFiltradas.stream().anyMatch(reserva -> {
-                        LocalDate inicioData = reserva.getDataInicio().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                        LocalDate fimData = reserva.getDataFinal().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                        return reserva.getQuarto().getId().equals(quarto.getId()) &&
-                                (dataAtual.isAfter(inicioData.minusDays(1)) && dataAtual.isBefore(fimData.plusDays(1)));
-                    });
-                    return !reservado;
-                });
-                if (!quartoDisponivel) {
-                    diasLivres.remove(dia);
-                }
-            }
-        }
-
-        List<Integer> datasLivres = diasLivres.stream()
-                .filter(dia -> LocalDate.of(ano, mes, dia).isAfter(hoje))
+        List<Integer> diasReservados = reservasFiltradas.stream()
+                .flatMap(reserva -> reserva.getDataInicio().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().datesUntil(reserva.getDataFinal().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().plusDays(1))
+                        .filter(data -> data.getMonthValue() == mes && data.getYear() == ano)
+                        .map(LocalDate::getDayOfMonth))
                 .collect(Collectors.toList());
 
-        return datasLivres;
+        LocalDate hoje = LocalDate.now();
+        List<QuartoEntity> quartosDisponiveis = quartoRepository.findByTipoQuartoECapacidade(tipoQuartoId, capacidade);
+
+        List<Integer> diasLivres = diasMes.stream()
+                .filter(dia -> {
+                    LocalDate dataAtual = LocalDate.of(ano, mes, dia);
+                    return !diasReservados.contains(dia) && dataAtual.isAfter(hoje) && quartosDisponiveis.stream().anyMatch(quarto -> !reservasFiltradas.stream().anyMatch(reserva ->
+                            reserva.getQuarto().getId().equals(quarto.getId()) &&
+                                    (dataAtual.isAfter(reserva.getDataInicio().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().minusDays(1)) &&
+                                            dataAtual.isBefore(reserva.getDataFinal().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().plusDays(1)))
+                    ));
+                })
+                .collect(Collectors.toList());
+
+        return diasLivres;
     }
+
+
+//    public List<Integer> datasLivres(Long tipoQuartoId, int capacidade, int mes, int ano) {
+//        LocalDate inicioMes = LocalDate.of(ano, mes, 1);
+//        LocalDate fimMes = inicioMes.withDayOfMonth(inicioMes.lengthOfMonth());
+//
+//        List<Integer> diasMes = inicioMes.datesUntil(fimMes.plusDays(1))
+//                .map(LocalDate::getDayOfMonth)
+//                .collect(Collectors.toList());
+//
+//        List<ReservaEntity> reservasFiltradas = reservaRepository.findByTipoQuartoCapacidadeStatusData(tipoQuartoId, capacidade, java.sql.Date.valueOf(inicioMes), java.sql.Date.valueOf(fimMes));
+//
+//        List<Integer> diasReservados = new ArrayList<>();
+//        for (ReservaEntity reserva : reservasFiltradas) {
+//            LocalDate inicioData = reserva.getDataInicio().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//            LocalDate fimData = reserva.getDataFinal().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//
+//            LocalDate inicioIntervalo = inicioData.isBefore(inicioMes) ? inicioMes : inicioData;
+//            LocalDate fimIntervalo = fimData.isAfter(fimMes) ? fimMes : fimData;
+//
+//            LocalDate tempDate = inicioIntervalo;
+//            while (!tempDate.isAfter(fimIntervalo)) {
+//                if (tempDate.getMonthValue() == mes && tempDate.getYear() == ano) {
+//                    diasReservados.add(tempDate.getDayOfMonth());
+//                }
+//                tempDate = tempDate.plusDays(1);
+//            }
+//        } LocalDate hoje = LocalDate.now();
+//
+//
+//        List<QuartoEntity> quartosDisponiveis = quartoRepository.findByTipoQuartoECapacidade(tipoQuartoId, capacidade);
+//
+//        List<Integer> diasLivres = new ArrayList<>(diasMes);
+//
+//        for (Integer dia : diasMes) {
+//            LocalDate dataAtual = LocalDate.of(ano, mes, dia);
+//            if (diasReservados.contains(dia)) {
+//                boolean quartoDisponivel = quartosDisponiveis.stream().anyMatch(quarto -> {
+//
+//                    boolean reservado = reservasFiltradas.stream().anyMatch(reserva -> {
+//                        LocalDate inicioData = reserva.getDataInicio().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//                        LocalDate fimData = reserva.getDataFinal().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//                        return reserva.getQuarto().getId().equals(quarto.getId()) &&
+//                                (dataAtual.isAfter(inicioData.minusDays(1)) && dataAtual.isBefore(fimData.plusDays(1)));
+//                    });
+//                    return !reservado;
+//                });
+//                if (!quartoDisponivel) {
+//                    diasLivres.remove(dia);
+//                }
+//            }
+//        }
+//
+//        List<Integer> datasLivres = diasLivres.stream()
+//                .filter(dia -> LocalDate.of(ano, mes, dia).isAfter(hoje))
+//                .collect(Collectors.toList());
+//
+//        return datasLivres;
+//    }
 
 
     public ReservaEntity save(ReservaEntity reservaEntity) {
