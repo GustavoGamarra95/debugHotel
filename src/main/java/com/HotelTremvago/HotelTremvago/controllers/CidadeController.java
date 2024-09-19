@@ -88,4 +88,11 @@ public class CidadeController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
+
+//    @GetMapping("/findByNomeAndCidade")
+//    public ResponseEntity<List<CidadeEntity>> findByNomeAndCidade(@RequestParam String nome, @RequestParam String cidade) {
+//        try{
+//            List<CidadeEntity> cidade = cidadeService.findByNomeAndCidade()
+//        }
+//    }
 }

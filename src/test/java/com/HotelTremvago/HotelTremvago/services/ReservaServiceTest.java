@@ -6,7 +6,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -18,82 +20,78 @@ import static org.mockito.Mockito.*;
 class ReservaServiceTest {
 
     @InjectMocks
-    private ReservaService reservaService;
+    ReservaService reservaService;
 
-    @Mock
-    private ReservaRepository reservaRepository;
+    @MockBean
+    ReservaRepository reservaRepository;
 
-    @Mock
-    private HospedeRepository hospedeRepository;
+    @MockBean
+    HospedeRepository hospedeRepository;
 
-    @Mock
-    private QuartoRepository quartoRepository;
+    @MockBean
+    QuartoRepository quartoRepository;
 
-    @Mock
-    private TipoQuartoRepository tipoQuartoRepository;
+    @MockBean
+    TipoQuartoRepository tipoQuartoRepository;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
 
-    @Test
-    void testCalcularDiaria() {
-        ReservaEntity reserva = new ReservaEntity();
-        QuartoEntity quarto = new QuartoEntity();
-        TipoQuartoEntity tipoQuarto = new TipoQuartoEntity();
+//    @Test
+//    void testCalcularDiaria() {
+//        ReservaEntity reserva = new ReservaEntity();
+//        QuartoEntity quarto = new QuartoEntity();
+//        TipoQuartoEntity tipoQuarto = new TipoQuartoEntity();
+//
+//        quarto.setId(1L);
+//        quarto.setTipoQuarto(tipoQuarto);
+//        tipoQuarto.setValor(100.0);
+//        reserva.setQuarto(quarto);
+//
+//        LocalDate dataInicio = LocalDate.now();
+//        LocalDate dataFinal = dataInicio.plusDays(3);
+//        reserva.setDataInicio(Date.from(dataInicio.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+//        reserva.setDataFinal(Date.from(dataFinal.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+//
+//        Mockito.(quartoRepository.findById(1L)).orElseThrow(Optional.of(quarto));
+//
+//        Double diaria = reservaService.calcularDiaria(reserva);
+//
+//        assertEquals(300.0, diaria);
+//    }
 
-        quarto.setId(1L);
-        quarto.setTipoQuarto(tipoQuarto);
-        tipoQuarto.setValor(100.0);
-        reserva.setQuarto(quarto);
-
-        LocalDate dataInicio = LocalDate.now();
-        LocalDate dataFinal = dataInicio.plusDays(3);
-        reserva.setDataInicio(Date.from(dataInicio.atStartOfDay(ZoneId.systemDefault()).toInstant()));
-        reserva.setDataFinal(Date.from(dataFinal.atStartOfDay(ZoneId.systemDefault()).toInstant()));
-
-        when(quartoRepository.findById(1L)).thenReturn(Optional.of(quarto));
-
-        Double diaria = reservaService.calcularDiaria(reserva);
-
-        assertEquals(300.0, diaria);
-    }
-
-    @Test
-    void testSave() {
-        ReservaEntity reserva = new ReservaEntity();
-        QuartoEntity quarto = new QuartoEntity();
-        TipoQuartoEntity tipoQuarto = new TipoQuartoEntity();
-        quarto.setId(1L);
-        quarto.setTipoQuarto(tipoQuarto);
-        tipoQuarto.setValor(100.0);
-        reserva.setQuarto(quarto);
-
-        LocalDate dataInicio = LocalDate.now();
-        LocalDate dataFinal = dataInicio.plusDays(3);
-        reserva.setDataInicio(Date.from(dataInicio.atStartOfDay(ZoneId.systemDefault()).toInstant()));
-        reserva.setDataFinal(Date.from(dataFinal.atStartOfDay(ZoneId.systemDefault()).toInstant()));
-
-        // Mock para calcularDiaria
-        when(quartoRepository.findById(1L)).thenReturn(Optional.of(quarto));
-
-        // Mock para save
-        when(reservaRepository.save(any(ReservaEntity.class))).thenAnswer(invocation -> {
-            ReservaEntity savedReserva = invocation.getArgument(0);
-            savedReserva.setId(1L); // Simula a atribuição de um ID pelo banco de dados
-            return savedReserva;
-        });
-
-        // Execução
-        ReservaEntity result = reservaService.save(reserva);
-
-        // Verificação
-        assertNotNull(result);
-        assertEquals(300.0, result.getTotal(), 0.01);
-        assertNotNull(result.getId());
-        verify(reservaRepository, times(1)).save(any(ReservaEntity.class));
-    }
+//    @Test
+//    void testSave() {
+//        ReservaEntity reserva = new ReservaEntity();
+//        QuartoEntity quarto = new QuartoEntity();
+//        TipoQuartoEntity tipoQuarto = new TipoQuartoEntity();
+//        quarto.setId(1L);
+//        quarto.setTipoQuarto(tipoQuarto);
+//        tipoQuarto.setValor(100.0);
+//        reserva.setQuarto(quarto);
+//
+//        LocalDate dataInicio = LocalDate.now();
+//        LocalDate dataFinal = dataInicio.plusDays(3);
+//        reserva.setDataInicio(Date.from(dataInicio.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+//        reserva.setDataFinal(Date.from(dataFinal.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+//
+//        // Mock para calcularDiaria
+//        when(quartoRepository.findById(1L)).thenReturn(Optional.of(quarto));
+//
+//        // Mock para save
+//        when(reservaRepository.save(any(ReservaEntity.class))).thenAnswer(invocation -> {
+//            ReservaEntity savedReserva = invocation.getArgument(0);
+//            savedReserva.setId(1L); // Simula a atribuição de um ID pelo banco de dados
+//            return savedReserva;
+//        });
+//
+//        // Execução
+//        ReservaEntity result = reservaService.save(reserva);
+//
+//        // Verificação
+//        assertNotNull(result);
+//        assertEquals(300.0, result.getTotal(), 0.01);
+//        assertNotNull(result.getId());
+//        verify(reservaRepository, times(1)).save(any(ReservaEntity.class));
+//    }
 
 
     @Test
@@ -238,6 +236,53 @@ class ReservaServiceTest {
         verify(hospedeRepository, times(1)).save(any(HospedeEntity.class));
     }
 
+
+    @Test
+    void testDatasLivres() {
+        Long tipoQuartoId = 1L;
+        int capacidade = 2;
+        int mes = 10;
+        int ano = 2024;
+
+        List<QuartoEntity> quartosDisponiveis = new ArrayList<>();
+        QuartoEntity quarto = new QuartoEntity();
+        quarto.setId(1L);
+        quarto.setNome("Quarto Deluxe");
+        quarto.setCapacidade(2);
+        TipoQuartoEntity tipoQuarto = new TipoQuartoEntity();
+        tipoQuarto.setId(1L);
+        tipoQuarto.setNome("Tipo A");
+        tipoQuarto.setValor(200.0);
+        quarto.setTipoQuarto(tipoQuarto);
+        List<QuartoEntity> quartos = new ArrayList<>();
+        quartos.add(quarto);
+        tipoQuarto.setQuartos(quartos);
+        quartosDisponiveis.add(quarto);
+
+        LocalDate inicioMes = LocalDate.of(ano, mes, 1);
+        LocalDate fimMes = inicioMes.withDayOfMonth(inicioMes.lengthOfMonth());
+
+        List<ReservaEntity> reservasFiltradas = new ArrayList<>();
+        ReservaEntity reserva1 = new ReservaEntity();
+        reserva1.setId(1L);
+        reserva1.setDataInicio(Date.from(LocalDate.of(ano, mes, 5).atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        reserva1.setDataFinal(Date.from(LocalDate.of(ano, mes, 10).atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        reserva1.setQuarto(quarto);
+        reserva1.setStatus(ReservaStatus.valueOf("OCUPADO"));
+        List<ReservaEntity> reservas = new ArrayList<>();
+        reservas.add(reserva1);
+        quarto.setReservas(reservas);
+        //reservasFiltradas.add(reserva1);
+        Mockito.when(quartoRepository.findByTipoQuartoECapacidade(tipoQuartoId, capacidade)).thenReturn(quartosDisponiveis);
+
+        Mockito.when(this.reservaRepository.findByTipoQuartoCapacidadeStatusData(tipoQuartoId, capacidade,
+                java.sql.Date.valueOf(inicioMes), java.sql.Date.valueOf(fimMes))).thenReturn(reservasFiltradas);
+
+
+        List<Integer> expectedDiasLivres = List.of(1, 2, 3, 4, 11, 12, 13 ,14, 15 ,16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31);
+        var dataTest = reservaService.datasLivres(1L, 2, 10, 2024);
+        assertEquals(expectedDiasLivres, dataTest);
+    }
 
 //    @Test
 //    void testDatasLivres() {

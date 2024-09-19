@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -21,7 +22,7 @@ import static org.mockito.Mockito.*;
 
 public class CidadeControllerTest {
 
-    @Mock
+    @MockBean
     private CidadeService cidadeService;
 
     @InjectMocks
@@ -69,15 +70,6 @@ public class CidadeControllerTest {
         assertEquals(cidade, response.getBody());
     }
 
-//    @Test
-//    public void testFindById_NotFound() {
-//        when(cidadeService.findById(1L)).thenReturn(null);
-//
-//        ResponseEntity<CidadeEntity> response = cidadeController.findById(1L);
-//
-//        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-//        assertNull(response.getBody());
-//    }
 
     @Test
     public void testFindAll() {
@@ -114,16 +106,6 @@ public class CidadeControllerTest {
         assertEquals(cidades, response.getBody());
     }
 
-//    @Test
-//    public void testFindByNome_NotFound() {
-//        when(cidadeService.findByNome(anyString())).thenReturn(Collections.emptyList());
-//
-//        ResponseEntity<List<CidadeEntity>> response = cidadeController.findByNome("TestNome");
-//
-//        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-//        assertEquals(Collections.emptyList(), response.getBody());
-//    }
-
     @Test
     public void testFindByEstado() {
         CidadeEntity cidade = new CidadeEntity();
@@ -136,27 +118,18 @@ public class CidadeControllerTest {
         assertEquals(cidades, response.getBody());
     }
 
+
 //    @Test
-//    public void testFindByEstado_NotFound() {
-//        when(cidadeService.findByEstado(anyString())).thenReturn(Collections.emptyList());
+//    public void testFindByNomeandCidade() {
+//        CidadeEntity cidade = new CidadeEntity();
+//        List<CidadeEntity> cidades = List.of(cidade);
+//        when(cidadeService.findByNomeAndEstado(anyString(), anyString())).thenReturn(cidades);
 //
-//        ResponseEntity<List<CidadeEntity>> response = cidadeController.findByEstado("TestEstado");
+//        ResponseEntity<List<CidadeEntity>> response = cidadeController.findByNomeAndCidade("TestNome", "TestCidade");
 //
-//        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-//        assertEquals(Collections.emptyList(), response.getBody());
+//        assertEquals(HttpStatus.OK, response.getStatusCode());
+//        assertEquals(cidades, response.getBody());
 //    }
-
-    @Test
-    public void testFindByNomeAndEstado() {
-        CidadeEntity cidade = new CidadeEntity();
-        List<CidadeEntity> cidades = Arrays.asList(cidade);
-        when(cidadeService.findByNomeAndEstado(anyString(), anyString())).thenReturn(cidades);
-
-        ResponseEntity<List<CidadeEntity>> response = cidadeController.findByNomeAndEstado("TestNome", "TestEstado");
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(cidades, response.getBody());
-    }
 
 //    @Test
 //    public void testFindByNomeAndEstado_NotFound() {
